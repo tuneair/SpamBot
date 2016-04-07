@@ -1,0 +1,22 @@
+Phase: EMail
+Input: Token SpaceToken
+
+Macro: WORD_OR_NUMBER
+(
+    ({Token.kind == word}|{Token.kind == number})
+)
+
+Rule: emailaddress
+Priority: 50
+(
+    (WORD_OR_NUMBER)+
+    ({Token.string == "."}(WORD_OR_NUMBER)+)*
+    ({Token.string == "_"}(WORD_OR_NUMBER)+)*
+    ({Token.string == "+"}(WORD_OR_NUMBER)+)*
+    ({Token.string == "-"}(WORD_OR_NUMBER)+)*
+    {Token.string == "@"}
+    (WORD_OR_NUMBER)+
+    ({Token.string == "."}(WORD_OR_NUMBER)+)+
+)
+:email -->
+:email.EMail= {rule = "emailaddress"}
